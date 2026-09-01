@@ -1,0 +1,149 @@
+/* src/theme.css
+ *
+ * antd'nin (v4.24.8) Popover bileşeninin "ok" (arrow) rengini normal
+ * React style prop'larıyla değiştiremiyoruz - antd bu rengi
+ * '.ant-popover-arrow-content' elementinin KENDİ ÜZERİNDE yeniden
+ * tanımlıyor, bu yüzden bir üst elementten (inline style) verilen değer
+ * miras (inheritance) yoluyla ona ulaşamıyor. Çözüm: aynı elementi
+ * doğrudan hedefleyen, daha spesifik bir CSS class'i ile yeniden tanımlamak.
+ */
+
+/* Erişilebilirlik: işletim sistemi "hareketi azalt" ayarı açıksa kütüphanenin
+ * TÜM CSS geçiş/animasyonlarını neredeyse anında bitir. Sadece "notif-" içeren
+ * class'lara ve alt öğelerine dokunur - kullanan uygulamanın kendi
+ * animasyonlarına karışmaz. (framer-motion'ın JS animasyonları ayrıca
+ * PopupStack.tsx'te useReducedMotion ile kapatılıyor - CSS !important onları
+ * durdurmaz.) */
+@media (prefers-reduced-motion: reduce) {
+  [class*='notif-'],
+  [class*='notif-'] *,
+  [class*='notif-'] *::before,
+  [class*='notif-'] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Ok rengi: once --notif-arrow-bg (panel.arrowBackground prop'u), o yoksa
+ * --notif-panel-bg (panel.background prop'u), o da yoksa tema varsayilani.
+ * Boylece varsayilanda ok = govde rengi, ama istenirse ayri verilebilir. */
+.notif-theme-light .ant-popover-arrow-content {
+  --antd-arrow-background-color: var(--notif-arrow-bg, var(--notif-panel-bg, #ffffff));
+  box-shadow: 0 0 0 1px #f0f0f0;
+}
+
+.notif-theme-dark .ant-popover-arrow-content {
+  --antd-arrow-background-color: var(--notif-arrow-bg, var(--notif-panel-bg, #1f1f1f));
+  box-shadow: 0 0 0 1px #303030;
+}
+
+/* Sag tik menusu (antd Dropdown) - "Sesi kapat"/"Tumunu temizle" gibi
+ * secenekler. Dropdown, Popover'dan TAMAMEN farkli bir antd bileseni
+ * (.ant-dropdown-menu), bu yuzden yukaridaki .ant-popover-* kurallari
+ * ona hic uygulanmiyordu - hic tema sinifi verilmemisti, hep antd'nin
+ * varsayilan (sadece light) gorunumuyle cikiyordu.
+ */
+.notif-theme-light .ant-dropdown-menu {
+  background-color: #ffffff;
+  border: 1px solid #f0f0f0;
+}
+.notif-theme-dark .ant-dropdown-menu {
+  background-color: #1f1f1f;
+  border: 1px solid #303030;
+}
+.notif-theme-light .ant-dropdown-menu-item {
+  color: #595959;
+}
+.notif-theme-dark .ant-dropdown-menu-item {
+  color: #d9d9d9;
+}
+.notif-theme-light .ant-dropdown-menu-item:hover {
+  background-color: #fafafa;
+}
+.notif-theme-dark .ant-dropdown-menu-item:hover {
+  background-color: #262626;
+}
+
+/* Silme onayi kutulari (Popconfirm/Modal.confirm) icin AYRI bir sinif
+ * cifti - notif-theme-light/dark zaten ana panel Popover'i icin
+ * `padding: 0` veriyor (panel kendi ic boslugunu kendi yonetiyor), onay
+ * kutusu bunu miras alirsa mesaj/buton boslugu bozulur.
+ */
+.notif-confirm-light.ant-popconfirm .ant-popover-inner,
+.notif-confirm-light.ant-modal-confirm .ant-modal-content {
+  background-color: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+}
+.notif-confirm-dark.ant-popconfirm .ant-popover-inner,
+.notif-confirm-dark.ant-modal-confirm .ant-modal-content {
+  background-color: #1f1f1f;
+  border: 1px solid #303030;
+  border-radius: 8px;
+}
+
+.notif-confirm-light .ant-popover-arrow-content {
+  --antd-arrow-background-color: #ffffff;
+}
+.notif-confirm-dark .ant-popover-arrow-content {
+  --antd-arrow-background-color: #1f1f1f;
+}
+
+.notif-confirm-light.ant-popconfirm .ant-popover-message-title,
+.notif-confirm-light.ant-modal-confirm .ant-modal-confirm-title,
+.notif-confirm-light.ant-modal-confirm .ant-modal-confirm-content {
+  color: #595959;
+}
+.notif-confirm-dark.ant-popconfirm .ant-popover-message-title,
+.notif-confirm-dark.ant-modal-confirm .ant-modal-confirm-title,
+.notif-confirm-dark.ant-modal-confirm .ant-modal-confirm-content {
+  color: #d9d9d9;
+}
+
+/* Cancel/OK: hap sekilli antd butonlari yerine .notif-panel-action-link
+ * gibi duz metin linkleri - uygulamada zaten hicbir ikonda hover renk
+ * degisimi yok, ayni tutarliligi burada da koruyoruz. */
+.notif-confirm-light.ant-popconfirm .ant-btn,
+.notif-confirm-dark.ant-popconfirm .ant-btn,
+.notif-confirm-light.ant-modal-confirm .ant-btn,
+.notif-confirm-dark.ant-modal-confirm .ant-btn {
+  height: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  font-size: 12px;
+}
+.notif-confirm-light.ant-popconfirm .ant-btn + .ant-btn,
+.notif-confirm-light.ant-modal-confirm .ant-btn + .ant-btn,
+.notif-confirm-dark.ant-popconfirm .ant-btn + .ant-btn,
+.notif-confirm-dark.ant-modal-confirm .ant-btn + .ant-btn {
+  margin-left: 12px;
+}
+.notif-confirm-light.ant-popconfirm .ant-btn,
+.notif-confirm-light.ant-modal-confirm .ant-btn {
+  color: #595959;
+}
+.notif-confirm-dark.ant-popconfirm .ant-btn,
+.notif-confirm-dark.ant-modal-confirm .ant-btn {
+  color: #d9d9d9;
+}
+.notif-confirm-light.ant-popconfirm .ant-btn:hover,
+.notif-confirm-light.ant-popconfirm .ant-btn:focus,
+.notif-confirm-light.ant-modal-confirm .ant-btn:hover,
+.notif-confirm-light.ant-modal-confirm .ant-btn:focus {
+  color: #595959;
+  background: transparent;
+  border-color: transparent;
+}
+.notif-confirm-dark.ant-popconfirm .ant-btn:hover,
+.notif-confirm-dark.ant-popconfirm .ant-btn:focus,
+.notif-confirm-dark.ant-modal-confirm .ant-btn:hover,
+.notif-confirm-dark.ant-modal-confirm .ant-btn:focus {
+  color: #d9d9d9;
+  background: transparent;
+  border-color: transparent;
+}
+

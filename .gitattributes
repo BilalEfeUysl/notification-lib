@@ -1,0 +1,18 @@
+# Tum metin dosyalari repo'da LF ile saklanir (platform bagimsiz, diff gurultusu olmaz).
+* text=auto eol=lf
+
+# Windows batch dosyalari CRLF ister
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binary - hic dokunma
+*.jar   binary
+*.class binary
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.ico   binary
+*.pdf   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary

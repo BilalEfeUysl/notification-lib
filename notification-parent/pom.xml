@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.github.bilalefeuysl.notification</groupId>
+  <artifactId>notification-parent</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>notification-parent</name>
+  <description>Spring Boot bildirim kutuphanesi - surum ve bagimlilik yonetimi</description>
+  <!-- child.project.url.inherit.append.path=false: alt moduller URL'yi oldugu gibi
+       miras alsin (Maven varsayilani modul dizin adini sonuna ekler, 404 uretir). -->
+  <url child.project.url.inherit.append.path="false">https://github.com/BilalEfeUysl/notification-lib</url>
+  <inceptionYear>2026</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Bilal Efe Uysal</name>
+      <email>bilalefeuysl@gmail.com</email>
+      <url>https://github.com/BilalEfeUysl</url>
+    </developer>
+  </developers>
+
+  <scm child.scm.connection.inherit.append.path="false"
+       child.scm.developerConnection.inherit.append.path="false"
+       child.scm.url.inherit.append.path="false">
+    <connection>scm:git:https://github.com/BilalEfeUysl/notification-lib.git</connection>
+    <developerConnection>scm:git:git@github.com:BilalEfeUysl/notification-lib.git</developerConnection>
+    <url>https://github.com/BilalEfeUysl/notification-lib</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <modules>
+    <module>notification-core</module>
+    <module>notification-websocket</module>
+    <module>notification-rest-api</module>
+    <module>notification-spring-boot-starter</module>
+    <module>notification-example</module>
+  </modules>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- Tekrarlanabilir (reproducible) build - Maven Central onerisi. Yayin
+         gununde guncel bir tarihe cekilebilir; sabit oldugu surece ayni kaynak
+         ayni jar'i uretir. -->
+    <project.build.outputTimestamp>2026-09-01T00:00:00Z</project.build.outputTimestamp>
+
+    <java.version>21</java.version>
+    <maven.compiler.release>21</maven.compiler.release>
+    <spring-boot.version>3.3.5</spring-boot.version>
+    <testcontainers.version>1.20.3</testcontainers.version>
+
+    <!-- Yayin (release) eklenti surumleri -->
+    <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+    <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+    <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+    <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Spring Boot BOM: alt modullerde <version> yazmamizi gereksiz kilar -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers-bom</artifactId>
+        <version>${testcontainers.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- Kendi modullerimiz -->
+      <dependency>
+        <groupId>io.github.bilalefeuysl.notification</groupId>
+        <artifactId>notification-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bilalefeuysl.notification</groupId>
+        <artifactId>notification-websocket</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bilalefeuysl.notification</groupId>
+        <artifactId>notification-rest-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bilalefeuysl.notification</groupId>
+        <artifactId>notification-spring-boot-starter</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.13.0</version>
+          <configuration>
+            <release>${maven.compiler.release}</release>
+            <parameters>true</parameters>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.2.5</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>${maven-gpg-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>${central-publishing-maven-plugin.version}</version>
+        </plugin>
+        <!-- Apache-2.0 lisans basligi. Sadece "mvn -Plicense ..." ile devreye
+             girer - VARSAYILAN build'e dahil DEGIL, cunku com.mycila artifact'i
+             bazi kurumsal aglar/SSL-inceleme arkasinda indirilemiyor
+             (PKIX/certificate hatasi) ve tum build'i kilitliyordu. Basliklar
+             zaten tum .java dosyalarinda; bu profil sadece ekleme/kontrol icin:
+             "mvn -Plicense license:format" ekler, "mvn -Plicense validate"
+             eksik varsa build'i durdurur (CI'da acilabilir). -->
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>4.5</version>
+          <configuration>
+            <licenseSets>
+              <licenseSet>
+                <header>${maven.multiModuleProjectDirectory}/license-header.txt</header>
+                <includes>
+                  <include>src/**/*.java</include>
+                </includes>
+              </licenseSet>
+            </licenseSets>
+            <properties>
+              <owner>Bilal Efe Uysal</owner>
+              <year>2026</year>
+            </properties>
+            <mapping>
+              <java>SLASHSTAR_STYLE</java>
+            </mapping>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <!-- Lisans basligi kontrolu (opt-in). -->
+    <profile>
+      <id>license</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.mycila</groupId>
+            <artifactId>license-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>check-license-headers</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- ================================================================
+         YAYIN (RELEASE) PROFILI - Maven Central'a yayin
+         ================================================================
+         Kullanim:
+           mvn versions:set -DnewVersion=0.1.0          (SNAPSHOT'u kaldir)
+           mvn -Prelease clean deploy                    (imzala + Central'a gonder)
+         Sonra https://central.sonatype.com uzerinden "Publish" onayi.
+
+         Bu profil ACIK DEGILKEN normal "mvn clean install" hic etkilenmez -
+         kaynak/javadoc jar'lari uretilmez, imzalama yapilmaz, deploy denenmez.
+
+         settings.xml gerekenler:
+           <server><id>central</id><username>TOKEN_KULLANICI</username>
+                   <password>TOKEN_PAROLA</password></server>
+           (imzalama parolasi icin) -Dgpg.passphrase=... veya
+           <server><id>gpg.passphrase</id><passphrase>...</passphrase></server>
+    -->
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <!-- -sources.jar (Central zorunlu) -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- -javadoc.jar (Central zorunlu) -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <doclint>none</doclint>
+              <failOnError>false</failOnError>
+              <quiet>true</quiet>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- GPG imzalari (.asc - Central zorunlu) -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <configuration>
+              <gpgArguments>
+                <arg>--pinentry-mode</arg>
+                <arg>loopback</arg>
+              </gpgArguments>
+            </configuration>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- Central Portal'a yukleme. extensions=true: "deploy" fazini devralir. -->
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+              <!-- false: Central'a yuklenir ama otomatik yayinlanmaz;
+                   portalda elle "Publish" denir. Guvenip otomatiklestirince true. -->
+              <autoPublish>false</autoPublish>
+              <waitUntil>validated</waitUntil>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

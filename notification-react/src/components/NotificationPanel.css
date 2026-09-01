@@ -1,0 +1,107 @@
+.notif-panel {
+  width: var(--notif-panel-width);
+  background: var(--notif-panel-bg);
+}
+
+.notif-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 16px;
+  border-bottom: 1px solid var(--notif-border);
+}
+
+.notif-panel-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--notif-secondary-text);
+}
+
+.notif-panel-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notif-panel-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.notif-panel-action-icon {
+  cursor: pointer;
+  color: var(--notif-faint-text);
+  font-size: 15px;
+}
+
+/* Ses ikonunun "kapali" hali - AudioMutedOutlined gibi FARKLI (mikrofon
+ * seklinde) bir ikona gecmek yerine, AYNI ikonun (SoundOutlined) uzerine
+ * bir cizgi ciziliyor - "sesi ac" ikonunun uzeri cizili hali gibi gorunsun
+ * istendigi icin. */
+.notif-icon-strike {
+  position: relative;
+}
+.notif-icon-strike::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 140%;
+  height: 1.5px;
+  background: currentColor;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  pointer-events: none;
+}
+
+.notif-panel-action-icon--disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.notif-panel-header--selection {
+  gap: 12px;
+}
+
+.notif-panel-selection-count {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--notif-secondary-text);
+  white-space: nowrap;
+}
+
+.notif-panel-action-link {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--notif-secondary-text);
+  white-space: nowrap;
+}
+
+.notif-panel-header--search {
+  gap: 10px;
+}
+
+.notif-panel-search-icon {
+  color: var(--notif-faint-text);
+  font-size: 13px;
+}
+
+.notif-panel-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  color: var(--notif-secondary-text);
+}
+.notif-panel-search-input::placeholder {
+  color: var(--notif-faint-text);
+}
+
+.notif-panel-connection-lost {
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--notif-warning-text);
+  background: var(--notif-warning-bg);
+  border-bottom: 1px solid var(--notif-border);
+}

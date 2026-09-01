@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.github.bilalefeuysl.notification</groupId>
+    <artifactId>notification-parent</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>notification-example</artifactId>
+  <name>notification-example</name>
+  <description>Starter'i kullanan calisan ornek uygulama</description>
+
+  <properties>
+    <!-- Ornek uygulama YAYINLANMAZ. release profili acikken bile bu modul
+         icin kaynak/javadoc jar'i uretilmez, imzalanmaz, Central'a gonderilmez. -->
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <maven.source.skip>true</maven.source.skip>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+    <gpg.skip>true</gpg.skip>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.github.bilalefeuysl.notification</groupId>
+      <artifactId>notification-spring-boot-starter</artifactId>
+    </dependency>
+
+    <!-- Embedded web sunucusu + REST altyapisi icin -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- notification-core'daki postgresql bagimliligi "provided" oldugu icin
+         asagi akmaz; gercek surucuyu burada BIZ sagliyoruz. -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Baglanti havuzu. notification-spring-boot-starter'daki HikariCP artik
+         "optional" (asagi akmiyor) - kutuphaneyi kullanan uygulama kendi
+         havuzunu secer. Bu ornek uygulama Hikari kullaniyor; Spring Boot'un
+         kendi DataSourceAutoConfiguration'i (spring.datasource.* ayarlarindan)
+         classpath'te bunu gorunce otomatik kullanir. -->
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring-boot.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

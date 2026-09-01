@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/notification
+    username: notification
+    password: notification
+
+notification:
+  enabled: true
+  targeting:
+    enabled: true
+  # notification-react/playground farkli bir origin'den (Vite dev sunucusu)
+  # bu backend'e (8080) baglanir; o origin'ler burada acikca izinli olmali.
+  # 8080'deki static/index.html ayni origin'den sunuldugu icin listeye
+  # gerek duymaz. Vite baska bir port secerse (5177+) onu da ekleyin.
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+      - http://localhost:5174
+      - http://localhost:5175
+      - http://localhost:5176
+
+#logging:
+#  level:
+#    io.github.bilalefeuysl.notification: DEBUG

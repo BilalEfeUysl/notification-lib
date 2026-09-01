@@ -1,0 +1,9 @@
+/* Varsayilan zil ikonu. Yaylar yatayda yer kapladigi icin ikon kareden
+   biraz genis (viewBox 32x26). Yukseklik, eski <BellOutlined/> 20px can
+   glyph'iyle yaklasik ayni gorunecek sekilde secildi. Renk currentColor
+   ile .notif-bell-trigger'dan gelir. */
+.notif-bell-status-icon {
+  display: block;
+  height: 24px;
+  width: auto;
+}

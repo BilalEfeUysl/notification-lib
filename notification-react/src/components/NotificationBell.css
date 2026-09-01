@@ -1,0 +1,63 @@
+.notif-bell-context-wrapper {
+  display: inline-flex;
+}
+
+.notif-bell-trigger-wrapper {
+  display: inline-flex;
+  outline: none;
+}
+
+.notif-bell-trigger {
+  cursor: pointer;
+  display: inline-flex;
+  outline: none;
+  color: var(--notif-secondary-text);
+}
+
+.notif-bell-default-icon {
+  font-size: 20px;
+}
+
+/* Rozet (okunmamis sayisi): antd'nin kendi hesabina birakmiyoruz - tek
+   haneli sayilarda genislik=yukseklik oldugu icin tam daireye donuyordu.
+   Genisligi yukseklikten kasitli olarak biraz buyuk (min-width > height)
+   tutarak sag-sol tam yuvarlak / ust-alt duz "hap" seklini her sayida
+   (1 hane de dahil) garanti ediyoruz. */
+.notif-bell-context-wrapper .ant-badge-count {
+  min-width: 17px;
+  height: 15px;
+  padding: 0 5px;
+  font-size: 10px;
+  line-height: 15px;
+  border-radius: 999px;
+}
+
+/* Popover'in ic govdesinin (arka plan, kose yuvarlama) rengi. background-
+   color --notif-panel-bg degiskenini okuyor - panel.background prop'u
+   verilirse (NotificationBell.tsx'teki overlayStyle) bu degisken set edilir,
+   verilmezse asagidaki tema varsayilanina duser. Ok (arrow) rengi de
+   varsayilan olarak bu degiskeni takip eder (theme.css) - ama panel.arrowBackground
+   verilirse ok ayri bir renge gecebilir. */
+.notif-theme-light .ant-popover-inner {
+  background-color: var(--notif-panel-bg, #ffffff);
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0;
+}
+
+.notif-theme-dark .ant-popover-inner {
+  background-color: var(--notif-panel-bg, #1f1f1f);
+  border: 1px solid #303030;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Ok (arrow), govdeden BAGIMSIZ piksel kaydirma - panel.arrowOffsetX/Y prop'u
+   verilirse NotificationBell.tsx'teki overlayStyle bu degiskenleri set eder,
+   vermezse 0px'e duser (hic kaymaz). transform, antd'nin kendi top/left
+   hesaplamasini BOZMUYOR - onun ustune sadece gorsel bir kaydirma ekliyor. */
+.ant-popover-arrow {
+  transform: translate(var(--notif-arrow-offset-x, 0px), var(--notif-arrow-offset-y, 0px));
+}

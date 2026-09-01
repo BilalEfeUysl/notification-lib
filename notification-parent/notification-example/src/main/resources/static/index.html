@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Notification Test Aracı</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    max-width: 960px;
+    margin: 32px auto;
+    padding: 0 16px;
+    background: #f5f6f8;
+    color: #1f2328;
+  }
+  h2 { margin-bottom: 4px; }
+  .subtitle { color: #6e7781; margin-top: 0; margin-bottom: 24px; }
+  fieldset {
+    border: 1px solid #d0d7de;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background: #fff;
+  }
+  legend { font-weight: 600; padding: 0 6px; }
+  label { display: block; margin-top: 10px; font-size: 13px; color: #444; }
+  input, select, textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    margin-top: 4px;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+  }
+  textarea { height: 54px; font-family: 'SFMono-Regular', Consolas, monospace; }
+  button {
+    margin-top: 12px;
+    padding: 7px 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    background: #1f6feb;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  button:hover { background: #0a54c7; }
+  button.secondary { background: #57606a; }
+  button.secondary:hover { background: #424a53; }
+  .row { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+  .row > * { flex: 1; margin-top: 0; }
+  #log {
+    height: 180px;
+    overflow-y: auto;
+    background: #0d1117;
+    color: #7ee787;
+    padding: 10px;
+    font-size: 12px;
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    white-space: pre-wrap;
+    border-radius: 8px;
+  }
+  #wsStatus { font-size: 12px; color: #6e7781; margin-left: 8px; }
+  .item {
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: #fff;
+  }
+  .item.unread { border-left: 4px solid #f59e0b; }
+  .item .meta { color: #6e7781; font-size: 11px; margin-top: 4px; }
+  .item button { margin-top: 8px; padding: 4px 10px; font-size: 12px; background: #d1242f; }
+  .item button:hover { background: #a8121f; }
+</style>
+</head>
+<body>
+
+<h2>Notification Test Aracı</h2>
+<p class="subtitle">Elle test için — REST + WebSocket'i doğrudan kullanır.</p>
+
+<fieldset>
+  <legend>Kimliğim (targeting testleri için)</legend>
+  <div class="row">
+    <label>Kullanıcı Id
+      <input id="myUserId" value="ali" placeholder="örn. ali">
+    </label>
+    <label>Roller (virgülle ayrılmış)
+      <input id="myRoles" value="" placeholder="örn. ADMIN,EDITOR">
+    </label>
+  </div>
+  <p style="font-size:12px;color:#6e7781;margin:0">
+    Bu sekme kendini bu kimlikle tanıtır. Farklı bir "kullanıcı" simüle etmek için başka bir sekme/pencerede
+    farklı bir Kullanıcı Id gir, ikisini yan yana aç.
+  </p>
+</fieldset>
+
+<fieldset>
+  <legend>Ayarlar</legend>
+  <div class="row">
+    <label>REST base path
+      <input id="apiBase" value="/api/notifications">
+    </label>
+    <label>WebSocket path
+      <input id="wsPath" value="/ws/notifications">
+    </label>
+  </div>
+  <button onclick="connectWebSocket()">Bağlan</button>
+  <span id="wsStatus">bağlanmadı</span>
+</fieldset>
+
+<fieldset>
+  <legend>Bildirim Gönder</legend>
+  <form id="publishForm">
+    <label>Başlık (classification) — varsayılan metin
+      <input name="classification" value="Test Bildirimi">
+    </label>
+    <label>İçerik (message) — varsayılan metin
+      <input name="message" value="Bu bir test bildirimidir">
+    </label>
+    <div class="row">
+      <label>Başlık — İngilizce (classificationEn, opsiyonel)
+        <input name="classificationEn" placeholder="Test Notification">
+      </label>
+      <label>İçerik — İngilizce (messageEn, opsiyonel)
+        <input name="messageEn" placeholder="This is a test notification">
+      </label>
+    </div>
+    <p style="font-size:12px;color:#6e7781;margin:4px 0 0">
+      İngilizce alanlar ya birlikte doldurulmalı ya hiç. Dolduğunda, arayüz dili
+      İngilizce olan istemcilere bunlar gösterilir.
+    </p>
+    <div class="row">
+      <label>Tip (serbest metin)
+        <input name="type" value="INFO" list="typeSuggestions">
+        <datalist id="typeSuggestions">
+          <option value="INFO"><option value="SUCCESS">
+          <option value="WARNING"><option value="ERROR">
+        </datalist>
+      </label>
+      <label>Öncelik
+        <select name="priority">
+          <option value="LOW">LOW</option>
+          <option value="NORMAL" selected>NORMAL</option>
+          <option value="HIGH">HIGH</option>
+        </select>
+      </label>
+      <label>Gönderici cihaz (sourceDeviceId, opsiyonel)
+        <input name="sourceDeviceId" placeholder="örn. PLC-42">
+      </label>
+    </div>
+    <div class="row">
+      <label>Kime gitsin (audienceType)
+        <select id="audienceType" name="audienceType" onchange="toggleAudienceValue()">
+          <option value="EVERYONE" selected>Herkese (EVERYONE)</option>
+          <option value="SPECIFIC_USER">Belirli kullanıcı (SPECIFIC_USER)</option>
+          <option value="ROLE">Belirli rol (ROLE)</option>
+        </select>
+      </label>
+      <label>Hedef değer (audienceValue)
+        <input id="audienceValue" name="audienceValue" placeholder="örn. ali ya da ADMIN" disabled>
+      </label>
+    </div>
+    <label>Metadata (JSON, opsiyonel)
+      <textarea name="metadataJson" placeholder='{"orderId":123,"actionUrl":"/orders/123"}'></textarea>
+    </label>
+    <button type="submit">Gönder</button>
+  </form>
+</fieldset>
+
+<fieldset>
+  <legend>Canlı Olay Günlüğü (WebSocket)</legend>
+  <div id="log"></div>
+  <button class="secondary" onclick="document.getElementById('log').textContent=''">Günlüğü Temizle</button>
+</fieldset>
+
+<fieldset>
+  <legend>Bildirim Listesi (benim kimliğime göre)</legend>
+  <div class="row">
+    <button class="secondary" onclick="fetchList()">Yenile</button>
+    <button class="secondary" onclick="hideAll()">Tümünü Gizle</button>
+    <button class="secondary" onclick="markAllRead()">Görünenleri Okundu Yap</button>
+  </div>
+  <div id="list"></div>
+</fieldset>
+
+<script>
+let socket = null;
+let currentIds = [];
+
+function apiBase() {
+  return document.getElementById('apiBase').value.trim();
+}
+
+function myUserId() {
+  return document.getElementById('myUserId').value.trim();
+}
+
+function myRoles() {
+  return document.getElementById('myRoles').value.trim();
+}
+
+function identityHeaders() {
+  return {
+    'X-User-Id': myUserId(),
+    'X-User-Roles': myRoles(),
+  };
+}
+
+function toggleAudienceValue() {
+  const type = document.getElementById('audienceType').value;
+  document.getElementById('audienceValue').disabled = (type === 'EVERYONE');
+}
+
+function log(text) {
+  const el = document.getElementById('log');
+  const time = new Date().toLocaleTimeString();
+  el.textContent += `[${time}] ${text}\n`;
+  el.scrollTop = el.scrollHeight;
+}
+
+function connectWebSocket() {
+  if (socket) socket.close();
+  const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  const wsPath = document.getElementById('wsPath').value.trim();
+  // Tarayici WebSocket API'si ozel header eklemeye izin vermiyor -
+  // kimligi query parametresi olarak gonderiyoruz (HeaderNotificationIdentityResolver
+  // bunu fallback olarak okuyor).
+  const params = new URLSearchParams({ userId: myUserId(), roles: myRoles() });
+  const url = `${protocol}//${location.host}${wsPath}?${params.toString()}`;
+  socket = new WebSocket(url);
+  socket.onopen = () => { document.getElementById('wsStatus').textContent = 'bağlandı: ' + url; log('WS bağlandı (userId=' + myUserId() + ')'); };
+  socket.onclose = (e) => { document.getElementById('wsStatus').textContent = 'bağlantı kapandı (kod=' + e.code + ')'; log('WS kapandı, kod=' + e.code); };
+  socket.onerror = () => log('WS hata');
+  socket.onmessage = (event) => {
+    log(event.data);
+    fetchList();
+  };
+}
+
+async function fetchList() {
+  const res = await fetch(`${apiBase()}?limit=50`, { headers: identityHeaders() });
+  const page = await res.json();
+  currentIds = page.items.map(n => n.id);
+  renderList(page.items);
+}
+
+function renderList(items) {
+  const el = document.getElementById('list');
+  if (items.length === 0) {
+    el.innerHTML = '<p style="color:#6e7781">Bildirim yok.</p>';
+    return;
+  }
+  el.innerHTML = items.map(n => `
+    <div class="item ${n.read ? '' : 'unread'}">
+      <strong>[${n.type}] ${n.classification}</strong> (${n.priority})<br>
+      ${n.message}
+      ${n.classificationEn ? `<div class="meta">EN: <strong>${n.classificationEn}</strong> — ${n.messageEn}</div>` : ''}
+      <div class="meta">id=${n.id} | okundu=${n.read} | ${n.createdAt}${n.sourceDeviceId ? ' · ' + n.sourceDeviceId : ''}</div>
+      <div class="meta">metadata: ${JSON.stringify(n.metadata)}</div>
+      <button onclick="hideOne('${n.id}')">Gizle</button>
+    </div>
+  `).join('');
+}
+
+async function hideOne(id) {
+  await fetch(`${apiBase()}/${id}`, { method: 'DELETE', headers: identityHeaders() });
+  fetchList();
+}
+
+async function hideAll() {
+  await fetch(apiBase(), { method: 'DELETE', headers: identityHeaders() });
+  fetchList();
+}
+
+async function markAllRead() {
+  if (currentIds.length === 0) return;
+  await fetch(`${apiBase()}/read`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...identityHeaders() },
+    body: JSON.stringify(currentIds)
+  });
+  fetchList();
+}
+
+document.getElementById('publishForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const params = new URLSearchParams();
+  for (const [key, value] of formData.entries()) {
+    if (value !== '') params.append(key, value);
+  }
+  const res = await fetch('/example/publish', { method: 'POST', body: params });
+  if (!res.ok) {
+    const body = await res.text();
+    log(`Gönderilemedi (${res.status}): ${body}`);
+    return;
+  }
+  fetchList();
+});
+
+connectWebSocket();
+fetchList();
+</script>
+
+</body>
+</html>

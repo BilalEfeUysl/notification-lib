@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/BilalEfeUysl/notification-java-lib/blob/main/notification/SECURITY.md
+    about: Do not file security issues in public. Follow the disclosure process in SECURITY.md.
+  - name: Question / usage help
+    url: https://github.com/BilalEfeUysl/notification-java-lib/discussions
+    about: For "how do I…" questions, please use Discussions rather than an issue.

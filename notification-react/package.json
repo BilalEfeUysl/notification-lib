@@ -1,0 +1,121 @@
+{
+  "name": "@bilalefeuysl/notification-react",
+  "version": "0.1.0",
+  "description": "Bildirim kutuphanesi - React arayuzu",
+  "keywords": [
+    "notification",
+    "notifications",
+    "react",
+    "toast",
+    "websocket",
+    "realtime",
+    "antd",
+    "bell"
+  ],
+  "license": "Apache-2.0",
+  "author": "Bilal Efe Uysal <bilalefeuysl@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BilalEfeUysl/notification-lib.git",
+    "directory": "notification-react"
+  },
+  "homepage": "https://github.com/BilalEfeUysl/notification-lib/tree/main/notification-react#readme",
+  "bugs": "https://github.com/BilalEfeUysl/notification-lib/issues",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./styles.css": "./dist/style.css",
+    "./dist/style.css": "./dist/style.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "README.tr.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "postbuild": "node scripts/postbuild.mjs",
+    "dev": "vite build --watch",
+    "typecheck": "tsc --noEmit",
+    "preview:ui": "vite --config vite.dev.config.ts",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "size": "size-limit",
+    "check:package": "npm run build && publint --strict && attw --pack . --exclude-entrypoints ./styles.css ./dist/style.css",
+    "prepublishOnly": "npm run lint && npm run test && npm run check:package && npm run size"
+  },
+  "size-limit": [
+    {
+      "name": "ESM bundle (js)",
+      "path": "dist/index.js",
+      "limit": "72 kB"
+    },
+    {
+      "name": "styles.css",
+      "path": "dist/style.css",
+      "limit": "3 kB"
+    }
+  ],
+  "peerDependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "antd": "^4.24.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "4.8.3",
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@eslint/js": "^9.9.0",
+    "@size-limit/preset-small-lib": "^13.0.3",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "antd": "4.24.8",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "jsdom": "^25.0.0",
+    "prettier": "^3.3.3",
+    "publint": "^0.3.24",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "size-limit": "^13.0.3",
+    "typescript": "^5.4.0",
+    "typescript-eslint": "^8.3.0",
+    "vite": "^5.2.0",
+    "vite-plugin-dts": "^3.9.0",
+    "vitest": "^2.0.5",
+    "framer-motion": "^13.1.0",
+    "react-infinite-scroll-component": "^7.2.1"
+  }
+}
