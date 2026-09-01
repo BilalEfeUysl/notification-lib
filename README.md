@@ -113,7 +113,7 @@ mvn clean install
 
 # 3. Run the example application
 cd notification-example
-java -jar target/notification-example-0.1.0-SNAPSHOT.jar
+java -jar target/notification-example-0.1.0.jar
 ```
 
 The application starts on `http://localhost:8080`. Try it:
@@ -138,7 +138,7 @@ curl -H "X-User-Id: user1" http://localhost:8080/api/notifications
 <dependency>
   <groupId>io.github.bilalefeuysl.notification</groupId>
   <artifactId>notification-spring-boot-starter</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 
@@ -877,7 +877,7 @@ directly:
 
 ```bash
 cd notification-example
-java -jar target/notification-example-0.1.0-SNAPSHOT.jar
+java -jar target/notification-example-0.1.0.jar
 ```
 
 ---

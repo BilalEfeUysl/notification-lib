@@ -115,7 +115,7 @@ mvn clean install
 
 # 3. Örnek uygulamayı çalıştır
 cd notification-example
-java -jar target/notification-example-0.1.0-SNAPSHOT.jar
+java -jar target/notification-example-0.1.0.jar
 ```
 
 Uygulama `http://localhost:8080` üzerinde açılır. Deneyin:
@@ -140,7 +140,7 @@ curl -H "X-User-Id: user1" http://localhost:8080/api/notifications
 <dependency>
   <groupId>io.github.bilalefeuysl.notification</groupId>
   <artifactId>notification-spring-boot-starter</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 
@@ -875,7 +875,7 @@ jar'ı doğrudan çalıştırın:
 
 ```bash
 cd notification-example
-java -jar target/notification-example-0.1.0-SNAPSHOT.jar
+java -jar target/notification-example-0.1.0.jar
 ```
 
 ---
