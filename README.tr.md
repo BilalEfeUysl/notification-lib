@@ -2,6 +2,13 @@
 
 [English](./README.md) · **Türkçe**
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.bilalefeuysl.notification/notification-spring-boot-starter?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.bilalefeuysl.notification/notification-spring-boot-starter)
+[![npm](https://img.shields.io/npm/v/@bilalefeuysl/notification-react?label=npm)](https://www.npmjs.com/package/@bilalefeuysl/notification-react)
+[![Lisans](https://img.shields.io/badge/license-Apache--2.0-blue)](./LICENSE)
+
+Backend **Maven Central**'da (`io.github.bilalefeuysl.notification:notification-spring-boot-starter`),
+React paketi **npm**'de (`@bilalefeuysl/notification-react`).
+
 Java Spring Boot uygulamalarına tek bir bağımlılıkla eklenebilen gerçek zamanlı bir
 bildirim sistemi ve buna eşlik eden bir React arayüz paketi. Uygulama kodu bir
 bildirim yayınlar (`notificationService.publish(...)`); kütüphane bunu PostgreSQL'e
@@ -74,7 +81,7 @@ geçer; sürüm notları eşleşen çifti belirtir.
 ## Repo yapısı
 
 ```
-notification/
+notification-lib/
 ├── LICENSE                  Apache License 2.0
 ├── docker-compose.yml       Geliştirme için yerel PostgreSQL
 ├── README.md                İngilizce (birincil)

@@ -2,6 +2,13 @@
 
 **English** · [Türkçe](./README.tr.md)
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.bilalefeuysl.notification/notification-spring-boot-starter?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.bilalefeuysl.notification/notification-spring-boot-starter)
+[![npm](https://img.shields.io/npm/v/@bilalefeuysl/notification-react?label=npm)](https://www.npmjs.com/package/@bilalefeuysl/notification-react)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](./LICENSE)
+
+Backend on **Maven Central** (`io.github.bilalefeuysl.notification:notification-spring-boot-starter`),
+React package on **npm** (`@bilalefeuysl/notification-react`).
+
 A real-time notification system you can add to a Java Spring Boot application with a
 single dependency, paired with a React UI package. Your application code publishes a
 notification (`notificationService.publish(...)`); the library persists it to
@@ -73,7 +80,7 @@ together; the release notes will state the matching pair.
 ## Repository layout
 
 ```
-notification/
+notification-lib/
 ├── LICENSE                  Apache License 2.0
 ├── docker-compose.yml       Local PostgreSQL for development
 ├── README.md                This file

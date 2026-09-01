@@ -33,7 +33,7 @@ Run the example application:
 
 ```bash
 cd notification-example
-java -jar target/notification-example-0.1.0-SNAPSHOT.jar
+java -jar target/notification-example-0.1.0.jar
 ```
 
 > `java -jar` is preferred over `mvn spring-boot:run`: on some machines (e.g. a
@@ -144,7 +144,7 @@ mvn clean install          # derleme + tüm testler (Docker çalışıyor olmal�
 
 ```bash
 cd notification-example
-java -jar target/notification-example-0.1.0-SNAPSHOT.jar
+java -jar target/notification-example-0.1.0.jar
 ```
 
 > `java -jar`, `mvn spring-boot:run`'a tercih edilir: bazı makinelerde (örn. ASCII
