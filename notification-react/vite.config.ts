@@ -1,9 +1,19 @@
+import { readFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+
+// Paket surumunu tek kaynaktan (package.json) al; NOTIFICATION_LIB_VERSION
+// build sirasinda bununla degistirilir (elle yazilan sabit kaymasin diye).
+const { version } = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
+) as { version: string };
 
 // Library mode: uygulama degil, baskalarinin import edecegi bir paket uretiyoruz.
 export default defineConfig({
   plugins: [dts({ include: ['src'], rollupTypes: true })],
+  define: {
+    __LIB_VERSION__: JSON.stringify(version),
+  },
   build: {
     lib: {
       entry: 'src/index.ts',

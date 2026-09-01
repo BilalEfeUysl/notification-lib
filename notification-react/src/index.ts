@@ -43,7 +43,9 @@ export type {
   ServerMessage,
 } from './types';
 
-export const NOTIFICATION_LIB_VERSION = '0.1.2';
+/** Bu paketin sürümü — build sırasında package.json `version`'dan enjekte edilir. */
+export const NOTIFICATION_LIB_VERSION: string =
+  typeof __LIB_VERSION__ === 'string' ? __LIB_VERSION__ : '0.0.0-dev';
 
 export { useResolvedTheme, useTheme, useThemeTokens } from './context/theme';
 export type { ThemeName, ResolvedTheme, ThemeTokens } from './context/theme';

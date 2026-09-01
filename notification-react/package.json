@@ -1,6 +1,6 @@
 {
   "name": "@bilalefeuysl/notification-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Bildirim kutuphanesi - React arayuzu",
   "keywords": [
     "notification",
@@ -47,7 +47,8 @@
     "dist",
     "LICENSE",
     "README.md",
-    "README.tr.md"
+    "README.tr.md",
+    "CHANGELOG.md"
   ],
   "sideEffects": [
     "**/*.css"
