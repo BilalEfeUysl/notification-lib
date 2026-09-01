@@ -7,7 +7,7 @@
   <parent>
     <groupId>io.github.bilalefeuysl.notification</groupId>
     <artifactId>notification-parent</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
   </parent>
 
   <artifactId>notification-example</artifactId>
@@ -22,6 +22,10 @@
     <maven.javadoc.skip>true</maven.javadoc.skip>
     <gpg.skip>true</gpg.skip>
   </properties>
+  <!-- NOT: bu modul Maven Central yuklemesinden parent'taki
+       central-publishing-maven-plugin <excludeArtifacts> ile dislaniyor
+       (release profili). -->
+
 
   <dependencies>
     <dependency>
